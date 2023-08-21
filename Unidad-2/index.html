@@ -44,6 +44,19 @@
 		ctx.strokeStyle = "blue"; //colorear borde
 		ctx.stroke();
 		ctx.fill(); //para rellenar la figura
+
+		//circulo - arc
+		ctx.lineWidth = 10;
+		ctx.beginPath();
+		ctx.arc(100,350,75,0, 2*Math.PI);
+		ctx.stroke();
+
+		ctx.beginPath();
+		ctx.arc(275,350,75,0, 2*Math.PI);
+		ctx.stroke();
+		ctx.fill();
+
+		ctx.lineWidth = 1;
 	</script>
 </body>
 </html>
