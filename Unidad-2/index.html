@@ -75,7 +75,15 @@
 		grd.addColorStop(1, "red");
 		ctx.fillStyle = grd;
 		ctx.fillRect(500, 350, 250, 200);
-		ctx.strokeRect();
-	</script>
+
+		//Crear una gradiante radial
+		ctx.beginPath();
+		var grd2 = ctx.createRadialGradient(275, 500, 1, 300, 510, 80);
+		grd2.addColorStop(0, "blue");
+		grd2.addColorStop(0.5, "green");
+		grd2.addColorStop(1, "purple");
+		ctx.fillStyle = grd2;
+		ctx.fillRect(200, 450, 150, 100);
+		</script>
 </body>
 </html>
