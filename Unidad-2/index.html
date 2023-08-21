@@ -6,7 +6,7 @@
 	<title>
 		<style type="text/css">
 			canvas{
-				background-color: rgb(138, 138, 209);
+				background-color: rgb(184, 184, 212);
 			}
 		</style>
 	</title>
@@ -21,7 +21,15 @@
 
 		ctx.strokeRect(0,0,cv.width,cv.height);
 
-		//tres cuadrados encimados
+		cv.addEventListener("click", (e) => {
+			ctx.beginPath();
+			ctx.fillStyle = "rgb(200,120,0,0.5)";
+			ctx.arc(e.layerX, e.layerY,25,0, 2*Math.PI);
+			ctx.stroke();
+			ctx.fill();
+		})
+
+/*		//tres cuadrados encimados
 		ctx.fillStyle = "rgb(200,0,0)"; //funcion
 		ctx.fillRect (10,10,55,50); //atributo
 
@@ -84,6 +92,7 @@
 		grd2.addColorStop(1, "purple");
 		ctx.fillStyle = grd2;
 		ctx.fillRect(200, 450, 150, 100);
+	*/
 		</script>
 </body>
 </html>
