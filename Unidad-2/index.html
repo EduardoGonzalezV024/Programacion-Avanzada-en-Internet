@@ -25,11 +25,25 @@
 		ctx.fillStyle = "rgb(200,0,0)"; //funcion
 		ctx.fillRect (10,10,55,50); //atributo
 
-		ctx.fillStyle = "rgba(0,0,200)";
+		ctx.fillStyle = "rgba(0,0,200,0.5)";
 		ctx.fillRect (55,50,55,50);	
 
 		ctx.fillStyle = "rgba(0,200,0)";
 		ctx.fillRect (100,90,55,50);	
+
+		//linea
+		ctx.moveTo(220,45); //punto/coordenada incial
+		ctx.lineTo(420,145); //punto final
+		ctx.stroke(); //para dibujarse el contorno
+	
+		//triangulo
+		ctx.moveTo(350,220); 
+		ctx.lineTo(310,91);
+		ctx.lineTo(200,150);
+		ctx.lineTo(350,220);
+		ctx.strokeStyle = "blue"; //colorear borde
+		ctx.stroke();
+		ctx.fill(); //para rellenar la figura
 	</script>
 </body>
 </html>
