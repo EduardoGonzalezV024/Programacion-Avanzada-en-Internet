@@ -19,6 +19,7 @@
 		var cv = document.getElementById('mycanvas');
 		var ctx = cv.getContext('2d');
 		var cuadroTamaño = 50;
+		var press = false;
 
 		var figura = true;
 
@@ -49,11 +50,21 @@
 		})
 
 		cv.addEventListener("mousemove", (e) => {
-			ctx.beginPath();
-			ctx.fillStyle = "black";
-			ctx.arc(e.layerX, e.layerY,2,0, 2*Math.PI);
-			ctx.stroke();
-			ctx.fill();
+			if(press){
+				ctx.beginPath();
+				ctx.fillStyle = "black";
+				ctx.arc(e.layerX, e.layerY,2,0, 2*Math.PI);
+				ctx.stroke();
+				ctx.fill();
+			}
+		})
+
+		cv.addEventListener("mousedown", (e) => {
+			press = true;
+		})
+
+		cv.addEventListener("mouseup", (e) => {
+			press = false;
 		})
 
 		function random_rgba() {
