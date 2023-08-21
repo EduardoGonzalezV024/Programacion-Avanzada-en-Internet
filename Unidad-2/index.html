@@ -22,12 +22,21 @@
 		ctx.strokeRect(0,0,cv.width,cv.height);
 
 		cv.addEventListener("click", (e) => {
+			
 			ctx.beginPath();
-			ctx.fillStyle = "rgb(200,120,0,0.5)";
 			ctx.arc(e.layerX, e.layerY,25,0, 2*Math.PI);
 			ctx.stroke();
 			ctx.fill();
 		})
+
+		cv.addEventListener("mouseover", (e) => {
+			ctx.fillStyle = random_rgba();
+		})
+
+		function random_rgba() {
+			var o = Math.round, r = Math.random, s = 255;
+			return 'rgba(' + o(r()*s) + ',' + o(r()*s) + ',' + o(r()*s) + ',' + r().toFixed(1) + ')';
+		}
 
 /*		//tres cuadrados encimados
 		ctx.fillStyle = "rgb(200,0,0)"; //funcion
