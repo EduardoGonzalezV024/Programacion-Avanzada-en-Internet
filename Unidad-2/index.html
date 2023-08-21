@@ -27,6 +27,7 @@
 		cv.addEventListener("click", (e) => {
 			
 			ctx.beginPath();
+			ctx.fillStyle = random_rgba();
 			
 			if(figura){
 				ctx.fillRect (e.layerX-(cuadroTamaño/2), e.layerY-(cuadroTamaño/2),cuadroTamaño,cuadroTamaño);
@@ -45,6 +46,14 @@
 
 		cv.addEventListener("mouseout", (e) => {
 			figura = !figura;
+		})
+
+		cv.addEventListener("mousemove", (e) => {
+			ctx.beginPath();
+			ctx.fillStyle = "black";
+			ctx.arc(e.layerX, e.layerY,2,0, 2*Math.PI);
+			ctx.stroke();
+			ctx.fill();
 		})
 
 		function random_rgba() {
