@@ -65,6 +65,17 @@
 
 		ctx.strokeStyle = "rgba(180,130,80)";
 		ctx.strokeText("Hola lalo", 495, 95);
+
+		//Crear un gradiante
+		ctx.beginPath();
+		var grd = ctx.createLinearGradient(500, 350, 750, 550);
+		grd.addColorStop(0, "yellow");
+		grd.addColorStop(0.33, "gold");
+		grd.addColorStop(0.66, "orange");
+		grd.addColorStop(1, "red");
+		ctx.fillStyle = grd;
+		ctx.fillRect(500, 350, 250, 200);
+		ctx.strokeRect();
 	</script>
 </body>
 </html>
