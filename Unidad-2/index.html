@@ -18,19 +18,33 @@
 	<script type="text/javascript">
 		var cv = document.getElementById('mycanvas');
 		var ctx = cv.getContext('2d');
+		var cuadroTamaño = 50;
+
+		var figura = true;
 
 		ctx.strokeRect(0,0,cv.width,cv.height);
 
 		cv.addEventListener("click", (e) => {
 			
 			ctx.beginPath();
-			ctx.arc(e.layerX, e.layerY,25,0, 2*Math.PI);
-			ctx.stroke();
-			ctx.fill();
+			
+			if(figura){
+				ctx.fillRect (e.layerX-(cuadroTamaño/2), e.layerY-(cuadroTamaño/2),cuadroTamaño,cuadroTamaño);
+				ctx.strokeRect (e.layerX-(cuadroTamaño/2), e.layerY-(cuadroTamaño/2),cuadroTamaño,cuadroTamaño);
+			}
+			else {
+				ctx.arc(e.layerX, e.layerY,25,0, 2*Math.PI);
+				ctx.stroke();
+				ctx.fill();
+			}
 		})
 
 		cv.addEventListener("mouseover", (e) => {
 			ctx.fillStyle = random_rgba();
+		})
+
+		cv.addEventListener("mouseout", (e) => {
+			figura = !figura;
 		})
 
 		function random_rgba() {
