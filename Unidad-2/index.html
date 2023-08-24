@@ -22,11 +22,28 @@
 		var cuadroTamaño = 50;
 		var press = false;
 		var figura = true;
-		var randomx = 0;
-		var randomy = 0;
+		var randomx = 200;
+		var randomy = 200;
+
+		var xpos = 200;
+		var ypos = 200;
 
 		ctx.strokeRect(0,0,cv.width,cv.height);
 
+		cv.addEventListener("keydown", (e) => {
+			ctx.beginPath();
+			ctx.fillStyle = random_rgba();
+
+			if(e.code == "ArrowUp") ypos -= 10;
+			if(e.code == "ArrowDown") ypos += 10;
+			if(e.code == "ArrowRight") xpos += 10;
+			if(e.code == "ArrowLeft") xpos -= 10;
+
+			ctx.fillRect (xpos, ypos,cuadroTamaño,cuadroTamaño);
+			ctx.strokeRect (xpos, ypos,cuadroTamaño,cuadroTamaño);
+		});
+
+/*
 		cv.addEventListener("keydown", (e) => {
 			if(e.code == "Space")
 			{
@@ -40,6 +57,7 @@
 				ctx.strokeRect (randomx, randomy,cuadroTamaño,cuadroTamaño);
 			}
 		});
+*/
 
 /*
 		cv.addEventListener("click", (e) => {
