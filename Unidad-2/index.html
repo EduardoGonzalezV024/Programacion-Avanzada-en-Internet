@@ -12,19 +12,36 @@
 	</title>
 </head>
 <body>
-	<canvas id="mycanvas" width="800" height="600">
+	<canvas id="mycanvas" tabindex='1' width="800" height="600">
 		Hola
 	</canvas>
 	<script type="text/javascript">
 		var cv = document.getElementById('mycanvas');
 		var ctx = cv.getContext('2d');
+		
 		var cuadroTamaño = 50;
 		var press = false;
-
 		var figura = true;
+		var randomx = 0;
+		var randomy = 0;
 
 		ctx.strokeRect(0,0,cv.width,cv.height);
 
+		cv.addEventListener("keydown", (e) => {
+			if(e.code == "Space")
+			{
+				ctx.beginPath();
+				ctx.fillStyle = random_rgba();
+
+				randomx = Math.floor(Math.random() * (cv.width-cuadroTamaño));
+				randomy = Math.floor(Math.random() * (cv.height-cuadroTamaño));
+
+				ctx.fillRect (randomx, randomy,cuadroTamaño,cuadroTamaño);
+				ctx.strokeRect (randomx, randomy,cuadroTamaño,cuadroTamaño);
+			}
+		});
+
+/*
 		cv.addEventListener("click", (e) => {
 			
 			ctx.beginPath();
@@ -66,11 +83,7 @@
 		cv.addEventListener("mouseup", (e) => {
 			press = false;
 		})
-
-		function random_rgba() {
-			var o = Math.round, r = Math.random, s = 255;
-			return 'rgba(' + o(r()*s) + ',' + o(r()*s) + ',' + o(r()*s) + ',' + r().toFixed(1) + ')';
-		}
+*/
 
 /*		//tres cuadrados encimados
 		ctx.fillStyle = "rgb(200,0,0)"; //funcion
@@ -136,6 +149,11 @@
 		ctx.fillStyle = grd2;
 		ctx.fillRect(200, 450, 150, 100);
 	*/
-		</script>
+
+		function random_rgba() {
+			var o = Math.round, r = Math.random, s = 255;
+			return 'rgba(' + o(r()*s) + ',' + o(r()*s) + ',' + o(r()*s) + ',' + r().toFixed(1) + ')';
+		}
+	</script>
 </body>
 </html>
