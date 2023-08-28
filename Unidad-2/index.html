@@ -11,14 +11,13 @@
 		</style>
 	</title>
 </head>
-<body>
+<body style="background-color: rgb(0, 0, 0);">
 	<canvas id="mycanvas" style="background-color: rgb(255, 255, 255);" tabindex='1' width="600" height="600">
 		Hola
 	</canvas>
 	<script type="text/javascript">
 		var cv = document.getElementById('mycanvas');
 		var ctx = cv.getContext('2d');
-		ctx.strokeRect(0,0,cv.width,cv.height);
 
 		var cuadroTamaño = 50;
 		var xpos = 200;
@@ -66,9 +65,7 @@
 		function repaint(){
 			ctx.beginPath();
 			ctx.fillStyle = "white";
-			ctx.strokeStyle = "black";
 			ctx.fillRect (0, 0, cv.width , cv.height);
-			ctx.strokeRect (0, 0, cv.width , cv.height);
 
 			ctx.beginPath();
 			ctx.fillStyle = random_rgba();
@@ -81,7 +78,7 @@
 			window.webkitRequestAnimationFrame ||
 			window.mozRequestAnimationFrame ||
 			function (callback) {
-				window.setTimeout(callback, 17);
+				window.setTimeout(callback, 20);
 			};
 		}());
 
