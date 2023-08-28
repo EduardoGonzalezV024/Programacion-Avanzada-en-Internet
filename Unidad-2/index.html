@@ -6,50 +6,86 @@
 	<title>
 		<style type="text/css">
 			canvas{
-				background-color: rgb(184, 184, 212);
+				background-color: rgb(105, 102, 102);
 			}
 		</style>
 	</title>
 </head>
 <body>
-	<canvas id="mycanvas" tabindex='1' width="800" height="600">
+	<canvas id="mycanvas" style="background-color: rgb(255, 255, 255);" tabindex='1' width="600" height="600">
 		Hola
 	</canvas>
 	<script type="text/javascript">
 		var cv = document.getElementById('mycanvas');
 		var ctx = cv.getContext('2d');
-		
-		var cuadroTamaño = 50;
-		var press = false;
-		var figura = true;
-		var randomx = 200;
-		var randomy = 200;
+		ctx.strokeRect(0,0,cv.width,cv.height);
 
+		var cuadroTamaño = 50;
 		var xpos = 200;
 		var ypos = 200;
 
-		ctx.strokeRect(0,0,cv.width,cv.height);
+		var dir = 0;
+
+		ctx.beginPath();
+		ctx.fillStyle = random_rgba();
+		ctx.fillRect (xpos, ypos,cuadroTamaño,cuadroTamaño);
+		ctx.strokeRect (xpos, ypos,cuadroTamaño,cuadroTamaño);
 
 		cv.addEventListener("keydown", (e) => {
 			if(e.code == "ArrowUp" || e.code == "ArrowDown" || e.code == "ArrowRight" || e.code == "ArrowLeft" ){
-				ctx.beginPath();
-				ctx.fillStyle = "white";
-				ctx.strokeStyle = "white";
-				ctx.fillRect (xpos, ypos,cuadroTamaño,cuadroTamaño);
-				ctx.strokeRect (xpos, ypos,cuadroTamaño,cuadroTamaño);
-				
-				ctx.beginPath();
-				ctx.fillStyle = random_rgba();
 
-				if(e.code == "ArrowUp") ypos -= 10;
-				if(e.code == "ArrowDown") ypos += 10;
-				if(e.code == "ArrowRight") xpos += 10;
-				if(e.code == "ArrowLeft") xpos -= 10;
-
-				ctx.fillRect (xpos, ypos,cuadroTamaño,cuadroTamaño);
-				ctx.strokeRect (xpos, ypos,cuadroTamaño,cuadroTamaño);
+				if(e.code == "ArrowUp") dir = 1;
+				if(e.code == "ArrowDown") dir = 2;
+				if(e.code == "ArrowRight") dir = 3;
+				if(e.code == "ArrowLeft") dir = 4;
 			}
 		});
+
+		function update(){
+			if(dir == 1) {
+				ypos -= 10;
+				if(ypos == -50) ypos = 600;
+			}
+			if(dir == 2) {
+				ypos += 10;
+				if(ypos == 600) ypos = -50;
+			}
+			if(dir == 3) {
+				xpos += 10;
+				if(xpos == 600) xpos = -50;
+			}
+			if(dir == 4) {
+				xpos -= 10;
+				if(xpos == -50) xpos = 600;
+			}
+
+			repaint();
+			window.requestAnimationFrame(update);
+		}
+
+		function repaint(){
+			ctx.beginPath();
+			ctx.fillStyle = "white";
+			ctx.strokeStyle = "black";
+			ctx.fillRect (0, 0, cv.width , cv.height);
+			ctx.strokeRect (0, 0, cv.width , cv.height);
+
+			ctx.beginPath();
+			ctx.fillStyle = random_rgba();
+			ctx.fillRect (xpos, ypos,cuadroTamaño,cuadroTamaño);
+			ctx.strokeRect (xpos, ypos,cuadroTamaño,cuadroTamaño);
+		}
+
+		window.requestAnimationFrame = (function () {
+			return window.requestAnimationFrame ||
+			window.webkitRequestAnimationFrame ||
+			window.mozRequestAnimationFrame ||
+			function (callback) {
+				window.setTimeout(callback, 17);
+			};
+		}());
+
+		window.requestAnimationFrame(update);
 
 /*
 		cv.addEventListener("keydown", (e) => {
