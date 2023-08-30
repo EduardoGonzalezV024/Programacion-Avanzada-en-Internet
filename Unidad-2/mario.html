@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>
+		<style type="text/css">
+			canvas{
+				background-color: rgb(105, 102, 102);
+			}
+		</style>
+	</title>
+</head>
+<body>
+	<canvas id="mycanvas" style="background-color: rgb(179, 238, 254);" tabindex='1' width="900" height="600">
+		Hola
+	</canvas>
+	<script type="text/javascript">
+		var cv = document.getElementById('mycanvas');
+		var ctx = cv.getContext('2d');
+		ctx.strokeRect(0,0,cv.width,cv.height);
+
+		var randX = 0;
+		var randY = 0;
+
+		var tamCuadSuelo = 0;
+
+		//Suelo
+		ctx.beginPath();
+		ctx.fillStyle = "rgb(249, 198, 191)";
+		ctx.fillRect(0, 500, 900, 100);
+		ctx.strokeRect(0, 500, 900, 34);
+
+		for(i = -45; i <= 900; i += 55){
+			for(j = 535; j <= 600; j += 5){
+				randX = Math.random()*10 + 5;
+				randY = Math.random()*10 + 5;
+
+				tamCuadSuelo += randX;
+
+				ctx.fillStyle = "rgb(242, 157, 125)";
+				ctx.fillRect(i+tamCuadSuelo , j , randX, 5);
+
+			}
+
+			tamCuadSuelo = 0;
+		}
+
+/*		
+		cv.addEventListener("keydown", (e) => {
+			if(e.code == "ArrowUp" || e.code == "ArrowDown" || e.code == "ArrowRight" || e.code == "ArrowLeft" ){
+				ctx.beginPath();
+				ctx.fillStyle = "white";
+				ctx.strokeStyle = "white";
+				ctx.fillRect (xpos, ypos,cuadroTamaño,cuadroTamaño);
+				ctx.strokeRect (xpos, ypos,cuadroTamaño,cuadroTamaño);
+				
+				ctx.beginPath();
+				ctx.fillStyle = random_rgba();
+
+				if(e.code == "ArrowUp") ypos -= 10;
+				if(e.code == "ArrowDown") ypos += 10;
+				if(e.code == "ArrowRight") xpos += 10;
+				if(e.code == "ArrowLeft") xpos -= 10;
+
+				ctx.fillRect (xpos, ypos,cuadroTamaño,cuadroTamaño);
+				ctx.strokeRect (xpos, ypos,cuadroTamaño,cuadroTamaño);
+			}
+		});
+*/
+
+/*
+		cv.addEventListener("keydown", (e) => {
+			if(e.code == "Space")
+			{
+				ctx.beginPath();
+				ctx.fillStyle = random_rgba();
+
+				randomx = Math.floor(Math.random() * (cv.width-cuadroTamaño));
+				randomy = Math.floor(Math.random() * (cv.height-cuadroTamaño));
+
+				ctx.fillRect (randomx, randomy,cuadroTamaño,cuadroTamaño);
+				ctx.strokeRect (randomx, randomy,cuadroTamaño,cuadroTamaño);
+			}
+		});
+*/
+
+/*
+		cv.addEventListener("click", (e) => {
+			
+			ctx.beginPath();
+			ctx.fillStyle = random_rgba();
+			
+			if(figura){
+				ctx.fillRect (e.layerX-(cuadroTamaño/2), e.layerY-(cuadroTamaño/2),cuadroTamaño,cuadroTamaño);
+				ctx.strokeRect (e.layerX-(cuadroTamaño/2), e.layerY-(cuadroTamaño/2),cuadroTamaño,cuadroTamaño);
+			}
+			else {
+				ctx.arc(e.layerX, e.layerY,25,0, 2*Math.PI);
+				ctx.stroke();
+				ctx.fill();
+			}
+		})
+
+		cv.addEventListener("mouseover", (e) => {
+			ctx.fillStyle = random_rgba();
+		})
+
+		cv.addEventListener("mouseout", (e) => {
+			figura = !figura;
+		})
+
+		cv.addEventListener("mousemove", (e) => {
+			if(press){
+				ctx.beginPath();
+				ctx.fillStyle = "black";
+				ctx.arc(e.layerX, e.layerY,2,0, 2*Math.PI);
+				ctx.stroke();
+				ctx.fill();
+			}
+		})
+
+		cv.addEventListener("mousedown", (e) => {
+			press = true;
+		})
+
+		cv.addEventListener("mouseup", (e) => {
+			press = false;
+		})
+*/
+
+/*		//tres cuadrados encimados
+		ctx.fillStyle = "rgb(200,0,0)"; //funcion
+		ctx.fillRect (10,10,55,50); //atributo
+
+		ctx.fillStyle = "rgba(0,0,200,0.5)";
+		ctx.fillRect (55,50,55,50);	
+
+		ctx.fillStyle = "rgba(0,200,0)";
+		ctx.fillRect (100,90,55,50);	
+
+		//linea
+		ctx.moveTo(220,45); //punto/coordenada incial
+		ctx.lineTo(420,145); //punto final
+		ctx.stroke(); //para dibujarse el contorno
+	
+		//triangulo
+		ctx.moveTo(350,220); 
+		ctx.lineTo(310,91);
+		ctx.lineTo(200,150);
+		ctx.lineTo(350,220);
+		ctx.strokeStyle = "blue"; //colorear borde
+		ctx.stroke();
+		ctx.fill(); //para rellenar la figura
+
+		//circulo - arc
+		ctx.lineWidth = 10;
+		ctx.beginPath();
+		ctx.arc(100,350,75,0, 2*Math.PI);
+		ctx.stroke();
+
+		ctx.beginPath();
+		ctx.arc(275,350,75,0, 2*Math.PI);
+		ctx.stroke();
+		ctx.fill();
+
+		ctx.lineWidth = 1;
+
+		//Texto
+		ctx.font = "70px Arial";
+		ctx.fillStyle = "rgba(120,110,50)";
+		ctx.fillText("Hola lalo", 500, 100);
+
+		ctx.strokeStyle = "rgba(180,130,80)";
+		ctx.strokeText("Hola lalo", 495, 95);
+
+		//Crear un gradiante
+		ctx.beginPath();
+		var grd = ctx.createLinearGradient(500, 350, 750, 550);
+		grd.addColorStop(0, "yellow");
+		grd.addColorStop(0.33, "gold");
+		grd.addColorStop(0.66, "orange");
+		grd.addColorStop(1, "red");
+		ctx.fillStyle = grd;
+		ctx.fillRect(500, 350, 250, 200);
+
+		//Crear una gradiante radial
+		ctx.beginPath();
+		var grd2 = ctx.createRadialGradient(275, 500, 1, 300, 510, 80);
+		grd2.addColorStop(0, "blue");
+		grd2.addColorStop(0.5, "green");
+		grd2.addColorStop(1, "purple");
+		ctx.fillStyle = grd2;
+		ctx.fillRect(200, 450, 150, 100);
+	*/
+
+		function random_rgba() {
+			var o = Math.round, r = Math.random, s = 244;
+			return 'rgba(' + o(r()*s +11) + ',' + o(r()*s +11) + ',' + o(r()*s +11) + ',' + r().toFixed(1) + ')';
+		}
+	</script>
+</body>
+</html>
