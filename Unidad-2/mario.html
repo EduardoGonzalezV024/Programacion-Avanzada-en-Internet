@@ -77,14 +77,42 @@
 		ctx.roundRect(190, 320, 180, 179, 4); ctx.stroke(); //Marco
 
 			//Verde
-		
+		ctx.beginPath(); ctx.fillStyle = "rgb(26, 24, 24)"; //Sombra
+		ctx.roundRect(760, 350, 180, 150, 4); ctx.fill();
 
+		ctx.beginPath(); ctx.fillStyle = "rgb(57, 161, 72)"; //Cuadro inferior
+		ctx.roundRect(750, 320, 180, 180, 4); ctx.fill(); 
+
+		ctx.beginPath(); ctx.fillStyle = "rgb(81, 217, 107)"; //Cuadro superior
+		ctx.roundRect(750, 320, 170, 170, 4); ctx.fill();
+	
+		ctx.beginPath();
+		ctx.roundRect(750, 320, 180, 179, 4); ctx.stroke(); //Marco
+
+			//Bloque 1?
+		
+		questionBlock(30,260);
 
 
 		//Color aleatorio
 		function random_rgba() {
 			var o = Math.round, r = Math.random, s = 244;
 			return 'rgba(' + o(r()*s +11) + ',' + o(r()*s +11) + ',' + o(r()*s +11) + ',' + r().toFixed(1) + ')';
+		}
+		
+		//Bloque ?
+		function questionBlock(x,y){
+			ctx.font = "50px Arial";
+			ctx.lineWidth = 3;
+
+			ctx.beginPath(); 
+		
+			ctx.fillStyle = "rgb(255, 144, 99)";
+			ctx.rect(30, 260, 60, 60); ctx.fill(); ctx.stroke();
+			
+			ctx.arc(100,350,75,0, 2*Math.PI);
+			ctx.fillStyle = "rgba(254,223,207)";
+			ctx.fillText("?", 30, 260);
 		}
 
 		//Rect redondeado
