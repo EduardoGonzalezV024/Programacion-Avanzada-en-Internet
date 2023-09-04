@@ -37,11 +37,12 @@
 		var cv = document.getElementById('mycanvas');
 		var ctx = cv.getContext('2d');
 
-		var player = new Rectangle(375,375, 50, 50);
+		var player = new Rectangle(370,370, 50, 50);
 		var objetivo1 = new Rectangle (25,25,35,35);
 		
 		var muros = [];
 		muros.push(new Rectangle(150,50, 300, 30));
+		muros.push(new Rectangle(150,520, 300, 30));
 
 		var dir = 0;
 		var wallCollision = false;
@@ -50,7 +51,10 @@
 		objetivo1.paint();
 
 		ctx.fillStyle = "gray";
-		muros[0].paint;
+		for(i=0; i< muros.length; i++)
+		{
+			muros[i].paint();
+		}
 
 		ctx.fillStyle = random_rgba();
 		player.strokePaint();
@@ -117,7 +121,10 @@
 			objetivo1.paint();
 
 			ctx.fillStyle = "gray";
-			muros[0].paint();
+			for(i=0; i< muros.length; i++)
+			{
+				muros[i].paint();
+			}
 
 			ctx.fillStyle = random_rgba();
 			player.strokePaint();
