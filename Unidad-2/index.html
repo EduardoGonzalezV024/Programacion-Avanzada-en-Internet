@@ -4,11 +4,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>
-		<style type="text/css">
-			canvas{
-				background-color: rgb(105, 102, 102);
-			}
-		</style>
+			Collision detect
 	</title>
 </head>
 <body style="background-color: rgb(0, 0, 0);">
@@ -16,20 +12,41 @@
 		Hola
 	</canvas>
 	<script type="text/javascript">
+		class Rectangle {
+			constructor(x, y, w, h) {
+				this.x = x;
+				this.y = y;
+				this.w = w;
+				this.h = h;
+			}
+
+			paint(){
+				ctx.beginPath();
+				ctx.fillRect (this.x, this.y, this.w, this.h);
+			}
+
+			strokePaint(){
+				ctx.beginPath();
+				ctx.fillRect (this.x, this.y, this.w, this.h);
+				ctx.strokeRect (this.x, this.y, this.w, this.h);
+			}
+		}
+
 		var cv = document.getElementById('mycanvas');
 		var ctx = cv.getContext('2d');
 
-		var cuadroTamaño = 50;
-		var xpos = 200;
-		var ypos = 200;
+		var player = new Rectangle(375,375, 50, 50);
+		var cuadro1 = new Rectangle (25,25,35,35);
 
 		var dir = 0;
 
-		ctx.beginPath();
-		ctx.fillStyle = random_rgba();
-		ctx.fillRect (xpos, ypos,cuadroTamaño,cuadroTamaño);
-		ctx.strokeRect (xpos, ypos,cuadroTamaño,cuadroTamaño);
+		ctx.fillStyle = "black";
+		cuadro1.paint();
 
+		ctx.fillStyle = random_rgba();
+		player.strokePaint();
+
+		
 		cv.addEventListener("keydown", (e) => {
 			if(e.code == "ArrowUp" || e.code == "ArrowDown" || e.code == "ArrowRight" || e.code == "ArrowLeft" ){
 
@@ -42,22 +59,23 @@
 
 		function update(){
 			if(dir == 1) {
-				ypos -= 10;
-				if(ypos == -50) ypos = 600;
+				player.y -= 10;
+				if(player.y <= -50) player.y = 600;
 			}
 			if(dir == 2) {
-				ypos += 10;
-				if(ypos == 600) ypos = -50;
+				player.y += 10;
+				if(player.y >= 600) player.y = -50;
 			}
 			if(dir == 3) {
-				xpos += 10;
-				if(xpos == 600) xpos = -50;
+				player.x += 10;
+				if(player.x >= 600) player.x = -50;
 			}
 			if(dir == 4) {
-				xpos -= 10;
-				if(xpos == -50) xpos = 600;
+				player.x -= 10;
+				if(player.x <= -50) player.x = 600;
 			}
 
+			rectCollision();
 			repaint();
 			window.requestAnimationFrame(update);
 		}
@@ -67,10 +85,22 @@
 			ctx.fillStyle = "white";
 			ctx.fillRect (0, 0, cv.width , cv.height);
 
-			ctx.beginPath();
+			ctx.fillStyle = "black";
+			cuadro1.paint();
+
 			ctx.fillStyle = random_rgba();
-			ctx.fillRect (xpos, ypos,cuadroTamaño,cuadroTamaño);
-			ctx.strokeRect (xpos, ypos,cuadroTamaño,cuadroTamaño);
+			player.strokePaint();
+		}
+
+		function rectCollision(){
+			if(player.x < cuadro1.x + cuadro1.w &&  
+				player.x + player.w > cuadro1.x &&
+				player.y < cuadro1.y + cuadro1.h &&
+				player.y + player.h > cuadro1.y)
+			{  
+				cuadro1.x = Math.random() * (cv.width - cuadro1.w - 4) + cuadro1.w + 2;
+				cuadro1.y = Math.random() * (cv.height - cuadro1.w - 4) + cuadro1.w + 2;
+			}
 		}
 
 		window.requestAnimationFrame = (function () {
@@ -83,7 +113,6 @@
 		}());
 
 		window.requestAnimationFrame(update);
-
 /*
 		cv.addEventListener("keydown", (e) => {
 			if(e.code == "Space")
