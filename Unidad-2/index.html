@@ -20,6 +20,8 @@
 				this.h = h;
 			}
 
+			getX(){ return this.x; }
+
 			paint(){
 				ctx.beginPath();
 				ctx.fillRect (this.x, this.y, this.w, this.h);
@@ -36,12 +38,19 @@
 		var ctx = cv.getContext('2d');
 
 		var player = new Rectangle(375,375, 50, 50);
-		var cuadro1 = new Rectangle (25,25,35,35);
+		var objetivo1 = new Rectangle (25,25,35,35);
+		
+		var muros = [];
+		muros.push(new Rectangle(150,50, 300, 30));
 
 		var dir = 0;
+		var wallCollision = false;
 
 		ctx.fillStyle = "black";
-		cuadro1.paint();
+		objetivo1.paint();
+
+		ctx.fillStyle = "gray";
+		muros[0].paint;
 
 		ctx.fillStyle = random_rgba();
 		player.strokePaint();
@@ -58,21 +67,40 @@
 		});
 
 		function update(){
+			for(i=0; i< muros.length; i++)
+			{
+				if(player.x < muros[i].x + muros[i].w &&  
+				player.x + player.w > muros[i].x &&
+				player.y < muros[i].y + muros[i].h &&
+				player.y + player.h > muros[i].y)
+				{  
+					wallCollision = true;
+				}
+			}
+
 			if(dir == 1) {
-				player.y -= 10;
+				if(wallCollision == false) player.y -= 10;
+				if(wallCollision == true) player.y += 10;
 				if(player.y <= -50) player.y = 600;
 			}
 			if(dir == 2) {
-				player.y += 10;
+				if(wallCollision == false) player.y += 10;
+				if(wallCollision == true) player.y -= 10;
 				if(player.y >= 600) player.y = -50;
 			}
 			if(dir == 3) {
-				player.x += 10;
+				if(wallCollision == false) player.x += 10;
+				if(wallCollision == true) player.x -= 10;
 				if(player.x >= 600) player.x = -50;
 			}
 			if(dir == 4) {
-				player.x -= 10;
+				if(wallCollision == false) player.x -= 10;
+				if(wallCollision == true) player.x += 10;
 				if(player.x <= -50) player.x = 600;
+			}
+			if(wallCollision == true){
+				wallCollision = false;
+				dir = 0;
 			}
 
 			rectCollision();
@@ -86,20 +114,23 @@
 			ctx.fillRect (0, 0, cv.width , cv.height);
 
 			ctx.fillStyle = "black";
-			cuadro1.paint();
+			objetivo1.paint();
+
+			ctx.fillStyle = "gray";
+			muros[0].paint();
 
 			ctx.fillStyle = random_rgba();
 			player.strokePaint();
 		}
 
 		function rectCollision(){
-			if(player.x < cuadro1.x + cuadro1.w &&  
-				player.x + player.w > cuadro1.x &&
-				player.y < cuadro1.y + cuadro1.h &&
-				player.y + player.h > cuadro1.y)
+			if(player.x < objetivo1.x + objetivo1.w &&  
+				player.x + player.w > objetivo1.x &&
+				player.y < objetivo1.y + objetivo1.h &&
+				player.y + player.h > objetivo1.y)
 			{  
-				cuadro1.x = Math.random() * (cv.width - cuadro1.w - 4) + cuadro1.w + 2;
-				cuadro1.y = Math.random() * (cv.height - cuadro1.w - 4) + cuadro1.w + 2;
+				objetivo1.x = Math.random() * (cv.width - objetivo1.w - 4) + objetivo1.w + 2;
+				objetivo1.y = Math.random() * (cv.height - objetivo1.w - 4) + objetivo1.w + 2;
 			}
 		}
 
