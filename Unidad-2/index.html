@@ -20,8 +20,6 @@
 				this.h = h;
 			}
 
-			getX(){ return this.x; }
-
 			paint(){
 				ctx.beginPath();
 				ctx.fillRect (this.x, this.y, this.w, this.h);
@@ -46,8 +44,9 @@
 
 		var dir = 0;
 		var speed = 10;
-		var wallCollision = false;
+		var score = 0;
 		var pause = false;
+		var wallCollisionCheck = -1;
 
 		ctx.fillStyle = "black";
 		objetivo1.paint();
@@ -66,9 +65,11 @@
 			if(e.code == "Space") {
 				if(pause == true){
 					pause = false; 
+					window.requestAnimationFrame(update);
 				} 
 				else{
 					pause = true;
+					repaint();
 				}
 			}
 
@@ -78,45 +79,39 @@
 					if(e.code == "ArrowDown") dir = 2;
 					if(e.code == "ArrowRight") dir = 3;
 					if(e.code == "ArrowLeft") dir = 4;
+
+					speed += 1;
 				}
 			}
 		});
 
 		function update(){
 			if(pause == false){
-				for(i=0; i< muros.length; i++)
-				{
-					if(player.x < muros[i].x + muros[i].w &&  
-					player.x + player.w > muros[i].x &&
-					player.y < muros[i].y + muros[i].h &&
-					player.y + player.h > muros[i].y)
-					{  
-						wallCollision = true;
-					}
-				}
+				
+				wallCollisionCheck = wallCollision();
 
 				if(dir == 1) {
-					if(wallCollision == false) player.y -= speed;
-					if(wallCollision == true) player.y += speed;
+					if(wallCollisionCheck == -1) player.y -= speed;
+					if(wallCollisionCheck >= 0) player.y = muros[wallCollisionCheck].y + muros[wallCollisionCheck].h + 1;
 					if(player.y <= -50) player.y = 600;
 				}
 				if(dir == 2) {
-					if(wallCollision == false) player.y += speed;
-					if(wallCollision == true) player.y -= speed;
+					if(wallCollisionCheck == -1) player.y += speed;
+					if(wallCollisionCheck >= 0) player.y = muros[wallCollisionCheck].y - player.h - 1;
 					if(player.y >= 600) player.y = -50;
 				}
 				if(dir == 3) {
-					if(wallCollision == false) player.x += speed;
-					if(wallCollision == true) player.x -= speed;
+					if(wallCollisionCheck == -1) player.x += speed;
+					if(wallCollisionCheck >= 0) player.x = muros[wallCollisionCheck].x - player.w - 1;
 					if(player.x >= 600) player.x = -50;
 				}
 				if(dir == 4) {
-					if(wallCollision == false) player.x -= speed;
-					if(wallCollision == true) player.x += speed;
+					if(wallCollisionCheck == -1) player.x -= speed;
+					if(wallCollisionCheck >= 0) player.x = muros[wallCollisionCheck].x + muros[wallCollisionCheck].w + 1;
 					if(player.x <= -50) player.x = 600;
 				}
-				if(wallCollision == true){
-					wallCollision = false;
+				if(wallCollisionCheck >= 0){
+					wallCollisionCheck = -1;
 					dir = 0;
 				}
 
@@ -124,29 +119,46 @@
 				repaint();
 				window.requestAnimationFrame(update);
 			}
-			else{
-				console.log("Si");
-				ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
-				ctx.fillRect(0,0,ctx.width, ctx.height);
-			}
 		}
 
 		function repaint(){
-			ctx.beginPath();
-			ctx.fillStyle = "white";
-			ctx.fillRect (0, 0, cv.width , cv.height);
+			if(pause == false){
+				ctx.beginPath();
+				ctx.fillStyle = "white";
+				ctx.fillRect (0, 0, cv.width , cv.height);
 
-			ctx.fillStyle = "black";
-			objetivo1.paint();
+				ctx.fillStyle = "black";
+				objetivo1.paint();
 
-			ctx.fillStyle = "gray";
-			for(i=0; i< muros.length; i++)
-			{
-				muros[i].paint();
+				ctx.fillStyle = "gray";
+				for(i=0; i< muros.length; i++)
+				{
+					muros[i].paint();
+				}
+
+				ctx.beginPath();
+				ctx.font = "20px Comic Sans";
+				ctx.fillStyle = "rgb(0,0,0)";
+				ctx.fillText("Score: "+ score, 480, 30);
+
+				ctx.strokeStyle = "rgb(0,0,0)";
+				ctx.strokeText("Score", 480, 30);
+
+				ctx.fillStyle = random_rgba();
+				player.strokePaint();
 			}
+			else{
+				ctx.beginPath();
+				ctx.fillStyle = "rgba(0,0,0,0.5)";
+				ctx.fillRect(0,0,cv.width, cv.height);
 
-			ctx.fillStyle = random_rgba();
-			player.strokePaint();
+				ctx.font = "bold 70px Comic Sans Ms";
+				ctx.fillStyle = "rgb(255,255,255)";
+				ctx.fillText("P A U S E", 120, 300);
+
+				ctx.strokeStyle = "rgb(0,0,0)";  ctx.lineWidth = 3;
+				ctx.strokeText("P A U S E", 120, 300); ctx.lineWidth = 1;
+			}
 		}
 
 		function rectCollision(){
@@ -157,7 +169,24 @@
 			{  
 				objetivo1.x = Math.random() * (cv.width - objetivo1.w - 4) + objetivo1.w + 2;
 				objetivo1.y = Math.random() * (cv.height - objetivo1.w - 4) + objetivo1.w + 2;
+
+				score += 10;
 			}
+		}
+
+		function wallCollision(){
+			for(i=0; i< muros.length; i++)
+			{
+				if(player.x < muros[i].x + muros[i].w &&  
+				player.x + player.w > muros[i].x &&
+				player.y < muros[i].y + muros[i].h &&
+				player.y + player.h > muros[i].y)
+				{  
+					return i;
+				}
+			}
+
+			return -1;
 		}
 
 		window.requestAnimationFrame = (function () {
