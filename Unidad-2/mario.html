@@ -25,6 +25,28 @@
 
 		var tamCuadSuelo = 0;
 
+		//Arbusto
+		ctx.lineWidth = 2;
+		ctx.beginPath(); ctx.fillStyle = "rgb(48, 105, 45)"; //back
+		ctx.ellipse(70,490,35,60,0.2,0,2*Math.PI); ctx.fill();
+		ctx.beginPath(); ctx.fillStyle = "rgb(88, 214, 114)";
+		ctx.ellipse(65,490,28,60,0.2,0,2*Math.PI); ctx.fill();
+		ctx.beginPath(); ctx.ellipse(70,490,35,60,0.2,0,2*Math.PI); ctx.stroke();
+
+		ctx.beginPath(); ctx.fillStyle = "rgb(48, 105, 45)"; //side
+		ctx.ellipse(70,510,52,50,Math.PI/2,0,2*Math.PI); ctx.fill();
+		
+		ctx.beginPath(); ctx.ellipse(70,510,52,50,Math.PI/2,0,2*Math.PI); ctx.stroke();
+
+		ctx.beginPath(); ctx.fillStyle = "rgb(48, 105, 45)"; //front
+		ctx.ellipse(67,508,39,60,-0.2,0,2*Math.PI); ctx.fill();
+		ctx.beginPath(); ctx.fillStyle = "rgb(88, 214, 114)";
+		ctx.ellipse(61,508,33,60,-0.2,0,2*Math.PI); ctx.fill();
+		ctx.beginPath(); ctx.ellipse(65,508,39,60,-0.2,Math.PI*1.16,1.75*Math.PI); ctx.stroke();
+
+		ctx.beginPath(); ctx.fillStyle = "rgb(88, 214, 114)";
+		ctx.ellipse(70,510,48,42,Math.PI/2,0,2*Math.PI); ctx.fill();
+
 		//Suelo
 		ctx.beginPath();
 		ctx.fillStyle = "rgb(249, 198, 191)";
@@ -63,6 +85,8 @@
 		ctx.beginPath();
 		ctx.roundRect(300, 220, 180, 279, 4); ctx.stroke(); //Marco
 
+		tornillos(300, 220, 180, 280);
+
 			//Beige
 		ctx.beginPath(); ctx.fillStyle = "rgb(26, 24, 24)"; //Sombra
 		ctx.roundRect(220, 350, 180, 150, 4); ctx.fill();
@@ -75,6 +99,8 @@
 	
 		ctx.beginPath();
 		ctx.roundRect(190, 320, 180, 179, 4); ctx.stroke(); //Marco
+
+		tornillos(190, 320, 180, 180);
 
 			//Verde
 		ctx.beginPath(); ctx.fillStyle = "rgb(26, 24, 24)"; //Sombra
@@ -89,10 +115,25 @@
 		ctx.beginPath();
 		ctx.roundRect(750, 320, 180, 179, 4); ctx.stroke(); //Marco
 
-			//Bloque 1?
-		
-		questionBlock(30,260);
+		tornillos(750, 320, 180, 180);
 
+		//Bloques ?
+		questionBlock(30,260);
+		questionBlock(129,100);
+		questionBlock(191,100);
+		questionBlock(800,160);
+
+		//Tubo
+		ctx.beginPath(); //Parte de arriba
+		var grd = ctx.createLinearGradient(550, 325, 690, 325);
+		grd.addColorStop(0, "rgb(36,127,19)");
+		grd.addColorStop(0.2, "rgb(133,228,140)");
+		grd.addColorStop(1, "rgb(36,127,19)");
+		ctx.fillStyle = grd;
+		ctx.fillRect(550,300,140,50);
+		ctx.strokeRect(550,300,140,50);
+		ctx.fillRect(555,350,130,150);
+		ctx.strokeRect(555,350,130,150);
 
 		//Color aleatorio
 		function random_rgba() {
@@ -104,15 +145,59 @@
 		function questionBlock(x,y){
 			ctx.font = "50px Arial";
 			ctx.lineWidth = 3;
+			var size = 60;
 
-			ctx.beginPath(); 
-		
-			ctx.fillStyle = "rgb(255, 144, 99)";
-			ctx.rect(30, 260, 60, 60); ctx.fill(); ctx.stroke();
+			ctx.beginPath(); ctx.fillStyle = "rgb(255, 144, 99)"; //Cuadro
+			ctx.rect(x, y, size, size); ctx.fill(); ctx.stroke();
 			
-			ctx.arc(100,350,75,0, 2*Math.PI);
+			ctx.fillStyle = "rgb(0, 0, 0)"; //Circulos
+			ctx.beginPath();ctx.arc(x+7,y+7,3,0, 2*Math.PI); ctx.fill();
+			ctx.arc(x-7+size,y+7,3,0, 2*Math.PI); ctx.fill();
+			ctx.beginPath();ctx.arc(x+7,y-7+size,3,0, 2*Math.PI); ctx.fill();
+			ctx.arc(x-7+size,y-7+size,3,0, 2*Math.PI); ctx.fill();
+
+			ctx.fillStyle = "rgba(0,0,0)"; // ?
+			ctx.fillText("?", x+20, y+49);
 			ctx.fillStyle = "rgba(254,223,207)";
-			ctx.fillText("?", 30, 260);
+			ctx.fillText("?", x+17, y+47);
+		}
+
+		//Tornillos
+		function tornillos(x, y, w, h){
+			ctx.lineWidth = 2;
+			var tamTornillo = 10;
+
+			ctx.beginPath(); ctx.fillStyle = "rgb(213, 223, 234)";
+			ctx.arc(x+18, y+18, tamTornillo, 0, 2*Math.PI);
+			ctx.fill(); ctx.stroke();
+			ctx.beginPath();
+			ctx.moveTo(x+(tamTornillo*0.5)+8,y+(tamTornillo*1.5)+8); 
+			ctx.lineTo(x+(tamTornillo*1.5)+8,y+(tamTornillo*0.5)+8);
+			ctx.stroke();
+
+			ctx.beginPath(); ctx.fillStyle = "rgb(213, 223, 234)";
+			ctx.arc(x-18+w, y+18, tamTornillo, 0, 2*Math.PI);
+			ctx.fill(); ctx.stroke();
+			ctx.beginPath();
+			ctx.moveTo(x-(tamTornillo*1.5)-8+w,y+(tamTornillo*1.5)+8); 
+			ctx.lineTo(x-(tamTornillo*0.5)-8+w,y+(tamTornillo*0.5)+8); 
+			ctx.stroke();
+
+			ctx.beginPath(); ctx.fillStyle = "rgb(213, 223, 234)";
+			ctx.arc(x-18+w, y-18+h, tamTornillo, 0, 2*Math.PI);
+			ctx.fill(); ctx.stroke();
+			ctx.beginPath();
+			ctx.moveTo(x-(tamTornillo*1.5)-8+w,y-(tamTornillo*0.5)-8+h); 
+			ctx.lineTo(x-(tamTornillo*0.5)-8+w,y-(tamTornillo*1.5)-8+h);
+			ctx.stroke();
+
+			ctx.beginPath(); ctx.fillStyle = "rgb(213, 223, 234)";
+			ctx.arc(x+18, y-18+h, tamTornillo, 0, 2*Math.PI);
+			ctx.fill(); ctx.stroke();
+			ctx.beginPath();
+			ctx.moveTo(x+(tamTornillo*0.5)+8,y-(tamTornillo*0.5)-8+h); 
+			ctx.lineTo(x+(tamTornillo*1.5)+8,y-(tamTornillo*1.5)-8+h);
+			ctx.stroke();
 		}
 
 		//Rect redondeado
