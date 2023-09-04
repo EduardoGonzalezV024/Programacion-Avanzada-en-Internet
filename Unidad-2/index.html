@@ -45,7 +45,9 @@
 		muros.push(new Rectangle(150,520, 300, 30));
 
 		var dir = 0;
+		var speed = 10;
 		var wallCollision = false;
+		var pause = false;
 
 		ctx.fillStyle = "black";
 		objetivo1.paint();
@@ -61,55 +63,72 @@
 
 		
 		cv.addEventListener("keydown", (e) => {
-			if(e.code == "ArrowUp" || e.code == "ArrowDown" || e.code == "ArrowRight" || e.code == "ArrowLeft" ){
+			if(e.code == "Space") {
+				if(pause == true){
+					pause = false; 
+				} 
+				else{
+					pause = true;
+				}
+			}
 
-				if(e.code == "ArrowUp") dir = 1;
-				if(e.code == "ArrowDown") dir = 2;
-				if(e.code == "ArrowRight") dir = 3;
-				if(e.code == "ArrowLeft") dir = 4;
+			if(e.code == "ArrowUp" || e.code == "ArrowDown" || e.code == "ArrowRight" || e.code == "ArrowLeft" ){
+				if(pause == false){
+					if(e.code == "ArrowUp") dir = 1;
+					if(e.code == "ArrowDown") dir = 2;
+					if(e.code == "ArrowRight") dir = 3;
+					if(e.code == "ArrowLeft") dir = 4;
+				}
 			}
 		});
 
 		function update(){
-			for(i=0; i< muros.length; i++)
-			{
-				if(player.x < muros[i].x + muros[i].w &&  
-				player.x + player.w > muros[i].x &&
-				player.y < muros[i].y + muros[i].h &&
-				player.y + player.h > muros[i].y)
-				{  
-					wallCollision = true;
+			if(pause == false){
+				for(i=0; i< muros.length; i++)
+				{
+					if(player.x < muros[i].x + muros[i].w &&  
+					player.x + player.w > muros[i].x &&
+					player.y < muros[i].y + muros[i].h &&
+					player.y + player.h > muros[i].y)
+					{  
+						wallCollision = true;
+					}
 				}
-			}
 
-			if(dir == 1) {
-				if(wallCollision == false) player.y -= 10;
-				if(wallCollision == true) player.y += 10;
-				if(player.y <= -50) player.y = 600;
-			}
-			if(dir == 2) {
-				if(wallCollision == false) player.y += 10;
-				if(wallCollision == true) player.y -= 10;
-				if(player.y >= 600) player.y = -50;
-			}
-			if(dir == 3) {
-				if(wallCollision == false) player.x += 10;
-				if(wallCollision == true) player.x -= 10;
-				if(player.x >= 600) player.x = -50;
-			}
-			if(dir == 4) {
-				if(wallCollision == false) player.x -= 10;
-				if(wallCollision == true) player.x += 10;
-				if(player.x <= -50) player.x = 600;
-			}
-			if(wallCollision == true){
-				wallCollision = false;
-				dir = 0;
-			}
+				if(dir == 1) {
+					if(wallCollision == false) player.y -= speed;
+					if(wallCollision == true) player.y += speed;
+					if(player.y <= -50) player.y = 600;
+				}
+				if(dir == 2) {
+					if(wallCollision == false) player.y += speed;
+					if(wallCollision == true) player.y -= speed;
+					if(player.y >= 600) player.y = -50;
+				}
+				if(dir == 3) {
+					if(wallCollision == false) player.x += speed;
+					if(wallCollision == true) player.x -= speed;
+					if(player.x >= 600) player.x = -50;
+				}
+				if(dir == 4) {
+					if(wallCollision == false) player.x -= speed;
+					if(wallCollision == true) player.x += speed;
+					if(player.x <= -50) player.x = 600;
+				}
+				if(wallCollision == true){
+					wallCollision = false;
+					dir = 0;
+				}
 
-			rectCollision();
-			repaint();
-			window.requestAnimationFrame(update);
+				rectCollision();
+				repaint();
+				window.requestAnimationFrame(update);
+			}
+			else{
+				console.log("Si");
+				ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+				ctx.fillRect(0,0,ctx.width, ctx.height);
+			}
 		}
 
 		function repaint(){

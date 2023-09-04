@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>
+		Sanic
+	</title>
+</head>
+<body>
+	<canvas id="mycanvas" style="background-color: rgb(32, 0, 160);" tabindex='1' width="900" height="600">
+		Hola
+	</canvas>
+	<script type="text/javascript">
+		var cv = document.getElementById('mycanvas');
+		var ctx = cv.getContext('2d');
+		ctx.strokeRect(0,0,cv.width,cv.height);
+
+		
+
+		//Color aleatorio
+		function random_rgba() {
+			var o = Math.round, r = Math.random, s = 244;
+			return 'rgba(' + o(r()*s +11) + ',' + o(r()*s +11) + ',' + o(r()*s +11) + ',' + r().toFixed(1) + ')';
+		}
+		
+		//Bloque ?
+		function questionBlock(x,y){
+			ctx.font = "50px Arial";
+			ctx.lineWidth = 3;
+			var size = 60;
+
+			ctx.beginPath(); ctx.fillStyle = "rgb(255, 144, 99)"; //Cuadro
+			ctx.rect(x, y, size, size); ctx.fill(); ctx.stroke();
+			
+			ctx.fillStyle = "rgb(0, 0, 0)"; //Circulos
+			ctx.beginPath();ctx.arc(x+7,y+7,3,0, 2*Math.PI); ctx.fill();
+			ctx.arc(x-7+size,y+7,3,0, 2*Math.PI); ctx.fill();
+			ctx.beginPath();ctx.arc(x+7,y-7+size,3,0, 2*Math.PI); ctx.fill();
+			ctx.arc(x-7+size,y-7+size,3,0, 2*Math.PI); ctx.fill();
+
+			ctx.fillStyle = "rgba(0,0,0)"; // ?
+			ctx.fillText("?", x+20, y+49);
+			ctx.fillStyle = "rgba(254,223,207)";
+			ctx.fillText("?", x+17, y+47);
+		}
+
+		//Tornillos
+		function tornillos(x, y, w, h){
+			ctx.lineWidth = 2;
+			var tamTornillo = 10;
+
+			ctx.beginPath(); ctx.fillStyle = "rgb(213, 223, 234)";
+			ctx.arc(x+18, y+18, tamTornillo, 0, 2*Math.PI);
+			ctx.fill(); ctx.stroke();
+			ctx.beginPath();
+			ctx.moveTo(x+(tamTornillo*0.5)+8,y+(tamTornillo*1.5)+8); 
+			ctx.lineTo(x+(tamTornillo*1.5)+8,y+(tamTornillo*0.5)+8);
+			ctx.stroke();
+
+			ctx.beginPath(); ctx.fillStyle = "rgb(213, 223, 234)";
+			ctx.arc(x-18+w, y+18, tamTornillo, 0, 2*Math.PI);
+			ctx.fill(); ctx.stroke();
+			ctx.beginPath();
+			ctx.moveTo(x-(tamTornillo*1.5)-8+w,y+(tamTornillo*1.5)+8); 
+			ctx.lineTo(x-(tamTornillo*0.5)-8+w,y+(tamTornillo*0.5)+8); 
+			ctx.stroke();
+
+			ctx.beginPath(); ctx.fillStyle = "rgb(213, 223, 234)";
+			ctx.arc(x-18+w, y-18+h, tamTornillo, 0, 2*Math.PI);
+			ctx.fill(); ctx.stroke();
+			ctx.beginPath();
+			ctx.moveTo(x-(tamTornillo*1.5)-8+w,y-(tamTornillo*0.5)-8+h); 
+			ctx.lineTo(x-(tamTornillo*0.5)-8+w,y-(tamTornillo*1.5)-8+h);
+			ctx.stroke();
+
+			ctx.beginPath(); ctx.fillStyle = "rgb(213, 223, 234)";
+			ctx.arc(x+18, y-18+h, tamTornillo, 0, 2*Math.PI);
+			ctx.fill(); ctx.stroke();
+			ctx.beginPath();
+			ctx.moveTo(x+(tamTornillo*0.5)+8,y-(tamTornillo*0.5)-8+h); 
+			ctx.lineTo(x+(tamTornillo*1.5)+8,y-(tamTornillo*1.5)-8+h);
+			ctx.stroke();
+
+			ctx.lineWidth = 3;
+		}
+
+		//Rect redondeado
+		function fillRoundRect(x, y, w, h, r){
+
+			ctx.beginPath();
+			ctx.fillRect(x + (w*r),y,w - (w*(r*2)),h);
+			ctx.fillRect(x,y + (h*r),w,h - (h*(r*2)));
+
+			ctx.beginPath();
+			ctx.ellipse(x+(w*r), y+(h*r), w*r, h*r, 0, 0, Math.PI*2)
+			ctx.ellipse(x+(w*(1-r)), y+(h*r), w*r, h*r, 0, 0, Math.PI*2)
+			ctx.fill();
+
+			ctx.beginPath();
+			ctx.ellipse(x+(w*r), y+(h*(1-r)), w*r, h*r, 0, 0, Math.PI*2)
+			ctx.ellipse(x+(w*(1-r)), y+(h*(1-r)), w*r, h*r, 0, 0, Math.PI*2)
+			ctx.fill();
+		}
+	</script>
+</body>
+</html>
