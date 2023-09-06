@@ -11,18 +11,28 @@
 	<canvas id="mycanvas" style="background-color: rgb(255, 255, 255);" tabindex='1' width="600" height="600">
 		Hola
 	</canvas>
+
+	<audio id="coinAudio" src="dkcoin.mp3">a</audio>
+	
 	<script type="text/javascript">
 		class Rectangle {
-			constructor(x, y, w, h) {
+			constructor(x, y, w, h, img) {
 				this.x = x;
 				this.y = y;
 				this.w = w;
 				this.h = h;
+				this.img = img;
 			}
 
 			paint(){
 				ctx.beginPath();
-				ctx.fillRect (this.x, this.y, this.w, this.h);
+				if(this.img == null){
+					ctx.fillRect (this.x, this.y, this.w, this.h);
+				}
+				else{
+					window.onload = ctx.drawImage(this.img, this.x, this.y, this.w, this.h);
+				}
+				
 			}
 
 			strokePaint(){
@@ -35,8 +45,16 @@
 		var cv = document.getElementById('mycanvas');
 		var ctx = cv.getContext('2d');
 
-		var player = new Rectangle(370,370, 50, 50);
-		var objetivo1 = new Rectangle (25,25,35,35);
+		var coinAudio = document.getElementById('coinAudio');
+
+		var playerImg = new Image();
+		playerImg.src = "caballero.jpg";
+
+		var objetivo1Img = new Image();
+		objetivo1Img.src = "cofre.jpg";
+
+		var player = new Rectangle(370,370, 60, 60, playerImg);
+		var objetivo1 = new Rectangle (25,25,35,35, objetivo1Img);
 		
 		var muros = [];
 		muros.push(new Rectangle(150,50, 300, 30));
@@ -58,7 +76,7 @@
 		}
 
 		ctx.fillStyle = random_rgba();
-		player.strokePaint();
+		player.paint();
 
 		
 		cv.addEventListener("keydown", (e) => {
@@ -145,7 +163,7 @@
 				ctx.strokeText("Score", 480, 30);
 
 				ctx.fillStyle = random_rgba();
-				player.strokePaint();
+				player.paint();
 			}
 			else{
 				ctx.beginPath();
@@ -171,6 +189,8 @@
 				objetivo1.y = Math.random() * (cv.height - objetivo1.w - 4) + objetivo1.w + 2;
 
 				score += 10;
+
+				coinAudio.play();
 			}
 		}
 
