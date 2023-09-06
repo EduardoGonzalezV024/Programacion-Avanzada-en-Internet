@@ -16,7 +16,95 @@
 		var ctx = cv.getContext('2d');
 		ctx.strokeRect(0,0,cv.width,cv.height);
 
-		
+		const groundSqr = (cv.height*0.25) / 4;
+		var groundColor = false;
+
+		ctx.lineWidth = 4;
+
+		//Cuadricula suelo
+		for(i = cv.height; i >= cv.height*0.75; i -= groundSqr)
+		{
+			for(j = 0; j < cv.width; j += groundSqr)
+			{
+				if(groundColor)
+				{
+					ctx.beginPath();
+					ctx.fillStyle = "rgb(96, 32, 0)";
+					ctx.strokeStyle = "rgb(89, 28, 0)";
+					ctx.fillRect(j, i, groundSqr, groundSqr);
+					ctx.strokeRect(j+2, i+2, groundSqr-4, groundSqr-4);
+					groundColor = false;
+				}
+				else
+				{
+					ctx.beginPath();
+					ctx.fillStyle = "rgb(192, 96, 0)";
+					ctx.strokeStyle = "rgb(155, 72, 0)";
+					ctx.fillRect(j, i, groundSqr, groundSqr);
+					ctx.strokeRect(j+2, i+2, groundSqr-4, groundSqr-4);
+					groundColor = true;
+				}
+			}
+			groundColor = !groundColor;
+		}
+
+		//Pasto
+		for(i = 0; i < 3; i++)
+		{
+			switch(i){
+				case 0:
+					ctx.fillStyle = "rgb(127, 224, 0)";
+					ctx.strokeStyle = "rgba(128, 224, 0, 0.5)";
+					break;
+
+				case 1:
+					ctx.fillStyle = "rgb(64, 160, 0)";
+					ctx.strokeStyle = "rgba(64, 160, 0, 0.5)";
+					break;
+
+				case 2:
+					ctx.fillStyle = "rgb(0, 96, 0)";
+					ctx.strokeStyle = "rgba(0, 96, 0, 0.5)";
+					break;
+			}
+
+			ctx.beginPath();
+			ctx.fillRect(0, cv.height*0.70+(i*groundSqr*0.5), cv.width, groundSqr*0.5);
+			ctx.strokeRect(0, 1+cv.height*0.70+(i*groundSqr*0.5), cv.width, groundSqr*0.5);
+		}
+
+		//Anillos
+		for(i = 0; i < 3; i++)
+		{
+			ctx.beginPath();
+			ctx.strokeStyle = "rgb(253,253,0)";
+			ctx.arc(groundSqr*2.5 + (groundSqr*3*i), cv.height*0.63, groundSqr*0.625, 0, Math.PI*2);
+			ctx.stroke();
+		}
+
+		//Girasol
+		ctx.beginPath();
+		ctx.fillStyle = "rgb(64,160,0)";
+		ctx.fillRect(cv.width*0.85, cv.height*0.50, groundSqr*0.33, cv.height*0.2);
+		ctx.fillStyle = "rgb(58,130,30)";
+		ctx.fillRect(cv.width*0.845, cv.height*0.50, cv.width*0.005, cv.height*0.2);
+
+		const centerSfX = cv.width*0.8475+(groundSqr*0.33*0.5);
+		const centerSfY = cv.height*0.50;
+
+		ctx.lineWidth = 1;
+
+		for(i = 0; i < 360; i++){
+			ctx.beginPath();
+			ctx.moveTo(centerSfX, centerSfY);
+			ctx.lineTo(centerSfX, centerSfY-groundSqr);
+			ctx.stroke();	
+		}
+
+		ctx.beginPath();
+		ctx.fillStyle = "rgb(64,96,64)";
+		ctx.arc(centerSfX, centerSfY, groundSqr*0.625, 0, Math.PI*2);
+		ctx.fill();
 
 		//Color aleatorio
 		function random_rgba() {
