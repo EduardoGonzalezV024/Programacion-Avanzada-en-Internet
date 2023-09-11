@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+        Avanzada TM
+    </title>
+    <style type="text/css">
+        body{
+            background-color: gray;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="container_app">
+        <form>
+          <fieldset>
+            <legend>Nombre: </legend>
+            <input type="text" v-model="username">
+          </fieldset>
+
+          <fieldset>
+            <legend>Lastname: </legend>
+            <input type="text" v-model="lastname">
+          </fieldset>
+
+          <button type="button" @:click="addPerson" >Añadir</button>
+        </form>
+
+        <ul>
+          <li v-for="item in persons">
+            {{item.name}} - {{item.lastname}}
+          </li>
+        </ul> 
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script type="text/javascript">
+        const { createApp, ref } = Vue
+
+        createApp({
+            setup(){ 
+                const message = "";
+                const name = "";
+                const num1 = 0;
+                const num2 = 0;
+                const result = 0;
+                const username = ref('');
+                const lastname = ref('');
+                const persons = ref([]);
+
+
+                return {
+                    name: ref(''),
+                    count: ref(0),
+                    num1: ref(0),
+                    num2: ref(0),
+                    result: ref(0),
+                    username,
+                    lastname,
+                    persons,
+                }
+            },
+            methods: {
+              addPerson(){
+                const person = {
+                  name: this.username,
+                  lastname: this.lastname,
+                }
+
+                this.persons.push(person)
+              }
+            },
+        }).mount('#container_app')
+
+    </script>
+</body>
+</html>
+
+
+
